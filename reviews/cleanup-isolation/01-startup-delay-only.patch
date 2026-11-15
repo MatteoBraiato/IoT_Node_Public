@@ -1,0 +1,12 @@
+--- a/main/main.c
++++ b/main/main.c
+@@ -64,6 +64,9 @@
+ {
+     ESP_LOGI("Main", "%s %d.%d.%d\n",PROJECT_NAME, PROJECT_VERSION_MAJOR, PROJECT_VERSION_MIDDLE, PROJECT_VERSION_MINOR);
+ 
++    /* Bench isolation: reproduce the removed heartbeat wait without LED/RMT. */
++    vTaskDelay(pdMS_TO_TICKS(1000U));
++
+     if(RES_OK == App_Init())
+     {
+         xTaskCreateStaticPinnedToCore(App_Task_10s, "App wake cycle", MAIN_CYCLE_TASK_STACK_SIZE, NULL, 10, mainCycleTaskStack, &mainCycleTaskBuffer, tskNO_AFFINITY);

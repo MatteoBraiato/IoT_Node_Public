@@ -1,0 +1,32 @@
+dependencies:
+  esp-idf-lib/esp_idf_lib_helpers:
+    version: '*'
+  esp-idf-lib/i2cdev:
+    version: '*'
+description: Driver for MAX17043/MAX17044/MAX17048/MAX17049 battery fuel gauge
+discussion: https://github.com/esp-idf-lib/core/discussions
+documentation: https://esp-idf-lib.github.io/max1704x/
+files:
+  exclude:
+  - docs/**/*
+issues: https://github.com/esp-idf-lib/max1704x/issues
+license: BSD-3
+maintainers:
+- Joshua Butler (@shuki25) <josh.butler929@gmail.com>
+repository: git://github.com/esp-idf-lib/max1704x.git
+repository_info:
+  commit_sha: 5e163fdb763295c5e445a90228352df452540c33
+  path: .
+targets:
+- esp32
+- esp32c2
+- esp32c3
+- esp32c5
+- esp32c6
+- esp32c61
+- esp32h2
+- esp32p4
+- esp32s2
+- esp32s3
+url: https://github.com/esp-idf-lib/core
+version: 0.9.8

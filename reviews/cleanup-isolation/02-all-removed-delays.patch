@@ -1,0 +1,51 @@
+--- a/main/main.c
++++ b/main/main.c
+@@ -64,6 +64,9 @@
+ {
+     ESP_LOGI("Main", "%s %d.%d.%d\n",PROJECT_NAME, PROJECT_VERSION_MAJOR, PROJECT_VERSION_MIDDLE, PROJECT_VERSION_MINOR);
+ 
++    /* Bench isolation: reproduce the removed heartbeat wait without LED/RMT. */
++    vTaskDelay(pdMS_TO_TICKS(1000U));
++
+     if(RES_OK == App_Init())
+     {
+         xTaskCreateStaticPinnedToCore(App_Task_10s, "App wake cycle", MAIN_CYCLE_TASK_STACK_SIZE, NULL, 10, mainCycleTaskStack, &mainCycleTaskBuffer, tskNO_AFFINITY);
+--- a/system/bsp/bsp_max1704.c
++++ b/system/bsp/bsp_max1704.c
+@@ -104,6 +104,9 @@
+     }
+     else
+     {
++        /* Bench isolation: removed checkpoint 1 (one blink plus settling). */
++        vTaskDelay(pdMS_TO_TICKS(2000U));
++
+         /* Initialize all fields */
+         bspMax1704.i2c_read_done = false;
+         bspMax1704.i2c_write_done = false;
+@@ -201,6 +204,8 @@
+         if (RES_OK == res)
+         {
+             bspMax1704.init = true;
++            /* Bench isolation: removed checkpoint 2. */
++            vTaskDelay(pdMS_TO_TICKS(3000U));
+         }
+         //bspMax1704.init = true;     // TODO: Remove this line after testing, as it forces init to true even if errors occurred.
+     }
+@@ -269,6 +274,8 @@
+             ESP_LOGE(TAG, "Failed to read SOC percent");
+             res = RES_ERROR;
+         }
++        /* Bench isolation: removed checkpoint 4. */
++        vTaskDelay(pdMS_TO_TICKS(5000U));
+     }
+ 
+     return res;
+@@ -316,6 +323,8 @@
+             ESP_LOGE(TAG, "Failed to read voltage");
+             res = RES_ERROR;
+         }
++        /* Bench isolation: removed checkpoint 3. */
++        vTaskDelay(pdMS_TO_TICKS(4000U));
+     }
+ 
+     return res;
